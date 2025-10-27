@@ -111,6 +111,7 @@ const buttonClicked = (e) => {
             // si si, incrementa cantidad
             carrito[idCarrito].cantidad++
         }
+        setLocalStorage()
         createCart(carrito)
     }
 }
@@ -142,6 +143,7 @@ const carritoClicked = (e) => {
         createCart(carrito)
     }
 }
+
 const getLocalStorage = () => {
     const carritoStorage = localStorage.getItem('carrito')
     if(carritoStorage){
@@ -151,7 +153,7 @@ const getLocalStorage = () => {
     }
 }
 const setLocalStorage = () => {
-    localStorage.getItem('carrito', JSON.stringify(carrito))
+    localStorage.setItem('carrito', JSON.stringify(carrito))
 }
 
 
@@ -159,6 +161,7 @@ db.forEach((guitar) => {
     console.log(guitar.nombre)
     container.appendChild(createCard(guitar))
 }) 
+
 getLocalStorage()
 createCart(carrito)
 
