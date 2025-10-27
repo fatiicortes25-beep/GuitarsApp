@@ -12,6 +12,7 @@ let carrito = []
 
 const container = document.querySelector('main div')
 const carritoContainer = document.querySelector('#carrito')
+const btnVai = document.querySelector('#vai')
 
 const createCard = (guitar) => { 
     const div = document.createElement('div')
@@ -97,9 +98,8 @@ const createCart = (carrito) => {
 const buttonClicked = (e) => {
     if(e.target.classList.contains('btn')){
         const dataId = e.target.getAttribute('data-id')
-        // verificar si exixte guitar en carrito
+        // verificar si existe guitar en carrito
         const idCarrito = carrito.findIndex(g => g.id === Number(dataId))
-
         // si no, crea un objeto nuevo
         if(idCarrito === -1){
         carrito.push({
@@ -135,20 +135,33 @@ const carritoClicked = (e) => {
             }
         } else if(btn === 'X') {
             carrito = carrito.filter(g => g.id !== Number(idCarrito))
-        } else if(btn === 'vaciar carrito' .toUpperCase()){
+        } else if(btn === 'vaciar carrito'.toUpperCase()){
             carrito = []
         }
+        setLocalStorage()
         createCart(carrito)
     }
 }
-
+const getLocalStorage = () => {
+    const carritoStorage = localStorage.getItem('carrito')
+    if(carritoStorage){
+        carrito =JSON.parse(carritoStorage)
+    } else{
+        carrito = []
+    }
+}
+const setLocalStorage = () => {
+    localStorage.getItem('carrito', JSON.stringify(carrito))
+}
 
 
 db.forEach((guitar) => {
     console.log(guitar.nombre)
     container.appendChild(createCard(guitar))
 }) 
+getLocalStorage()
 createCart(carrito)
 
 container.addEventListener('click', buttonClicked)
 carritoContainer.addEventListener('click', carritoClicked)
+btnVai.addEventListener('click', buttonClicked)
